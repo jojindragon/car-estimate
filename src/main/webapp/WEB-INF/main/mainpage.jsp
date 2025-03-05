@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>차량 카탈로그</title>
 </head>
 <body>
-
+<jsp:include page="../../layout/title.jsp"/>
 </body>
 </html>

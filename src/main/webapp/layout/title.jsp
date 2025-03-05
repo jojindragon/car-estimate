@@ -74,6 +74,7 @@ body *{
 	</div>
 	
 	<div class="auth">
+		<span>회원가입</span>
 		<span>로그인</span>
 		<span>로그아웃</span>
 	</div>
