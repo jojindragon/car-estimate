@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import data.dto.UserDto;
 import data.service.UserService;
 import jakarta.servlet.http.HttpSession;
 
@@ -28,9 +29,11 @@ public class LoginController {
 		boolean b=userService.loginCheck(loginid, loginpass);
 		
 		if(b) {
+			UserDto dto = userService.getUserByUserId(loginid);
 			session.setMaxInactiveInterval(60*60*4);
 			session.setAttribute("loginstatus", "success");
 			session.setAttribute("loginid", loginid);
+			session.setAttribute("admin", dto.getAdmin());
 		}
 		
 		map.put("result", b?"success":"fail");
@@ -43,5 +46,6 @@ public class LoginController {
 	{
 		session.removeAttribute("loginstatus");
 		session.removeAttribute("loginid");
+		session.removeAttribute("admin");
 	}
 }

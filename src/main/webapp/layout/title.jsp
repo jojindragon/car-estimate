@@ -70,7 +70,7 @@ body *{
 <c:set var="root" value="${pageContext.request.contextPath}"/>
 <body>
 <!-- 로그인창 활성화 -->
-<div class="modal" id="myLoginModal">
+<div class="modal" id="myLoginModal" style="top: 300px;">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
 
@@ -99,19 +99,11 @@ body *{
 	        				 class="form-control" required="required">
 	        			</td>
 	        		</tr>
-	        		<tr>
-	        			<td colspan="2" align="center">
-							<button type="submit" class="btn btn-sm btn-success">로그인</button>
-						</td>
-	        		</tr>
 	        	</tbody>
 	        </table>
+	        <button type="submit" class="btn btn-sm btn-success"
+	         style="margin-top: 20px;">로그인</button>
         </form>
-      </div>
-
-      <!-- Modal footer -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger btnclose" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
@@ -133,8 +125,8 @@ body *{
 <div class="title">
 	<nav class="menu">
 		<ul>
-			<li><a>차량</a></li>
-			<li><a>구매</a></li>
+			<li><a href="${root}/">차량</a></li>
+			<li><a>견적비교</a></li>
 			<li><a>게시판</a></li>
 		</ul>
 	</nav>
@@ -149,11 +141,11 @@ body *{
 		<c:if test="${sessionScope.loginstatus==null}">
 			<span id="register">회원가입</span>
 			<span data-bs-toggle="modal" data-bs-target="#myLoginModal"
-			style="cursor: pointer;">로그인</span>
+			 style="cursor: pointer;">로그인</span>
 		</c:if>
 		<c:if test="${sessionScope.loginstatus!=null}">
-			<span style="cursor: pointer" id="mypage">마이페이지</a>
-			<span style="cursor: pointer" id="logout">로그아웃</a>
+			<span style="cursor: pointer" id="mypage">마이페이지</span>
+			<span style="cursor: pointer" id="logout">로그아웃</span>
 		</c:if>
 	</div>
 </div>

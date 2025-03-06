@@ -28,4 +28,37 @@
 		select * from car where idx=#{idx}
 	</select>
 
+	<!-- 차량 정보 수정 -->
+	<update id="updateCar" parameterType="CarDto">
+		update car set name=#{name}, price=#{price}, type=#{type},
+		excolor=#{excolor}, incolor=#{incolor}, cnt=#{cnt}
+		where idx=#{idx}
+	</update>
+
+	<!-- 차량 구매 -->
+	<update id="getCar" parameterType="int">
+		update car set cnt=cnt-1 where idx=#{idx}
+	</update>
+	
+	<!-- 차량 정보 삭제 -->
+	<delete id="deleteCar" parameterType="int">
+		delete from car where idx=#{idx}
+	</delete>
+	
+	<!-- 장바구니 목록 확인 -->
+	<select id="checkcart" parameterType="Map" resultType="int">
+		select count(*) from carlist
+		where id=#{id} and idx=#{idx}
+	</select>
+	
+	<!-- 장바구니 담기 -->
+	<insert id="insertcart" parameterType="Map">
+		insert into carlist(id, idx) values(#{id}, #{idx})
+	</insert>
+	
+	<!-- 장바구니 없애기 -->
+	<delete id="deletecart" parameterType="Map">
+		delete from carlist where id=#{id} and idx=#{idx}
+	</delete>
+	
 </mapper>

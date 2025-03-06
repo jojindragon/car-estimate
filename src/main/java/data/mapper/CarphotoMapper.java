@@ -8,4 +8,5 @@ import data.dto.CarphotoDto;
 public interface CarphotoMapper {
 	public void insertCarPhoto(CarphotoDto dto);
 	public CarphotoDto getCarPhoto(int idx);
+	public void updateCarPhoto(CarphotoDto dto);
 }

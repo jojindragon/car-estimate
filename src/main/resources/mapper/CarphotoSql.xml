@@ -11,5 +11,11 @@
 	<select id="getCarPhoto" parameterType="int" resultType="CarphotoDto">
 		select * from carphoto where idx=#{idx}
 	</select>
-
+	
+	<!-- 차량 사진 수정 -->
+	<update id="updateCarPhoto" parameterType="CarphotoDto">
+		update carphoto set sidephoto = #{sidephoto}, frontphoto=#{frontphoto}
+		where idx=#{idx}
+	</update>
+	
 </mapper>

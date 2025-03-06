@@ -12,4 +12,10 @@ public interface CarMapper {
 	public List<CarDto> getCarList(String type);
 	public List<String> getCarTypes();
 	public CarDto getCarData(int idx);
+	public void updateCar(CarDto dto);
+	public void getCar(int idx);
+	public void deleteCar(int idx);
+	public int checkcart(int id, int idx);
+	public void insertcart(int id, int idx);
+	public void deletecart(int id, int idx);
 }

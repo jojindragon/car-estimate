@@ -32,4 +32,36 @@ public class CarService {
 	public CarDto getCarData(int idx) {
 		return carMapper.getCarData(idx);
 	}
+	
+	// 차량 정보 수정
+	public void updateCar(CarDto dto) {
+		carMapper.updateCar(dto);
+	}
+	
+	// 차량 구매 - cnt 감소
+	public void getCar(int idx) {
+		carMapper.getCar(idx);
+	}
+	
+	// 차량 정보 삭제
+	public void deleteCar(int idx) {
+		carMapper.deleteCar(idx);
+	}
+	
+	// 장바구니 - carlist 테이블 관련
+	// 장바구니 검사
+	public boolean checkcart(int id, int idx) {
+		return carMapper.checkcart(id, idx)==1?true:false;
+	}
+	
+	// 장바구니 담기
+	public void insertcart(int id, int idx) {
+		carMapper.insertcart(id, idx);
+	}
+	
+	// 장바구니 지우기
+	public void deletecart(int id, int idx) {
+		carMapper.deletecart(id, idx);
+	}
+	
 }

@@ -16,9 +16,15 @@ public class CarphotoService {
 		carphotoMapper.insertCarPhoto(dto);
 	}
 	
-	// 각 상품 사진 가져오기
+	// 각 차량 사진 가져오기
 	public CarphotoDto getCarPhoto(int idx) {
 		return carphotoMapper.getCarPhoto(idx);
 	}
+	
+	// 차량 사진 수정
+	public void updateCarPhoto(CarphotoDto dto) {
+		carphotoMapper.updateCarPhoto(dto);
+	}
+	
 	
 }
