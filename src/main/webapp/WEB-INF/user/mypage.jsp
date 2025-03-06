@@ -11,6 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         body *{
             font-family: 'Jua';
@@ -25,6 +26,13 @@
         .tab1 tbody th{
         	background-color: #f0f8ff;
         }
+        
+        .profilelargephoto{
+        	width: 150px;
+        	height: 150px;
+        	border:1px solid gray;
+        	border-radius: 100px;
+        }
      </style>
      <script>
      	let jungbok=false;
@@ -32,11 +40,11 @@
      	$(function(){
      		//중복버튼 이벤트
      		$("#btnidcheck").click(function(){
-     			let myid=$("#myid").val();
+     			let userid=$("#userid").val();
      			$.ajax({
      				type:"get",
      				dataType:"json",
-     				data:{"myid":myid},
+     				data:{"userid":userid},
      				url:"./idcheck",
      				success:function(res){
      					if(res.result=='success'){
@@ -45,22 +53,21 @@
      					}else{
      						jungbok=false;
      						alert("존재하는 아이디입니다\n다시 입력해주세요");
-     						$("#myid").val("");
+     						$("#userid").val("");
      					}
      				}
      			});
      			
      		});
      		
-     		//아이디를 입력시 중복변수 다시 false로...
-     		$("#myid").keyup(function(){
+     		$("#userid").keyup(function(){
      			jungbok=false;
      		});
      	});
      	
      	function check(){
      		
-     		let p1=$("#mpass").val();
+     		let p1=$("#password").val();
      		if(p1!=p2){
      			alert("비밀번호가 맞지 않습니다");
      			return false;
@@ -75,61 +82,120 @@
      </script>
 </head>
 <body>
-<jsp:include page="../../layout/title.jsp"/>
-<div style="margin: 10px 30px;width: 500px;">
-	<form action="./insert" method="post" enctype="multipart/form-data" onsubmit="return check()">
-		<table class="table table-bordered tab1">
-			<tbody>
-				<tr>
-					<th>이름</th>
-					<td class="input-group">
-						<input type="text" name="mname" class="form-control"
-						required="required">
-					</td>
-				</tr>
-				<tr>
-					<th>아이디</th>
-					<td class="input-group">
-						<input type="text" name="myid" id="myid" class="form-control"
-						required="required">
-						<button type="button" class="btn btn-sm btn-danger"
-						id="btnidcheck">중복체크</button>
-					</td>
-				</tr>
-				<tr>
-					<th>비밀번호</th>
-					<td class="input-group">
-						<input type="password" name="mpass" id="mpass" class="form-control"
-						placeholder="비밀번호" required="required">
-					</td>
-				</tr>
-				<tr>
-					<th>닉네임</th>
-					<td class="input-group">
-						<input type="text" name="nickname" class="form-control">
-					</td>
-				</tr>
-				<tr>
-					<th>핸드폰</th>
-					<td class="input-group">
-						<input type="text" name="mhp" class="form-control"
-						required="required">					
-					</td>
-				</tr>
-				<tr>
-					<th>주 소</th>
-					<td colspan="2">
-						<input type="text" name="maddr" class="form-control">
-					</td>
-				</tr>
-				<tr>
-					<td colspan="3" align="center">
-						<button type="submit" class="btn btn-sm btn-success">회원가입</button>
-					</td>
-				</tr>
-			</tbody>		
-		</table>
-	</form>
+
+<!-- 수정 Modal -->
+<div class="modal" id="myUpdateModal">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">회원정보 수정</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <h6>닉네임 수정</h6>
+        <input type="text" class="form-control" id="nickname"
+        value="${dto.nickname}">
+        <h6>핸드폰 수정</h6>
+        <input type="text" class="form-control" id="phone"
+        value="${dto.phone}">
+        <h6>주소 수정</h6>
+        <input type="text" class="form-control" id="addr"
+        value="${dto.addr}">
+        <br>
+        <button type="button" class="btn btn-sm btn-success"
+        id="btnupdate" data-bs-dismiss="modal">수정</button>
+        
+        <script>
+        	$("#btnupdate").click(function(){
+        		$.ajax({
+        			type:"post",
+        			dataType:"text",
+        			data:{"userId":$("#userId").val(),"phone":$("#phone").val(),
+        				"addr":$("#addr").val(),"id":${dto.id}},
+        			url:"./update",
+        			success:function(){
+        				location.reload();
+        			}
+        		
+        		});
+        	});
+        
+        </script>
+      </div>
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
 </div>
+<!-- 프로필 -->
+<jsp:include page="../../layout/title.jsp"/>
+<div style="margin: 30px 100px;">
+	 <img src="${naverurl}/user/${dto.profile}" class="profilelargephoto"
+	  onerror="this.src='../noimage.png'" style="float: left;">
+	
+	<input type="file" id="fileupload" style="display: none;">
+	
+	<i class="bi bi-camera-fill changecamera"></i>
+	
+<!-- 프로필 사진관련 -->
+<script>
+		$(".changecamera").click(function(){
+			$("#fileupload").trigger("click");
+		});
+		
+		//프로필 변경 이벤트
+		$("#fileupload").change(function(e){
+			let form=new FormData();
+			form.append("upload",e.target.files[0]);
+			form.append("id",${dto.id});
+			
+			$.ajax({
+				type:"post",
+				dataType:"text",
+				data:form,
+				url:"./changeprofile",
+				processData:false,
+				contentType:false,
+				success:function(){
+					location.reload();
+				}
+			});
+		});
+	</script>
+	<div style="display: inline-block;margin: 20px 50px;">
+		<h6>회원명 : ${dto.nickname}</h6>
+		<h6>아이디 : ${dto.userId}</h6>
+		<h6>핸드폰 : ${dto.phone}</h6>
+		<h6>주  소 : ${dto.addr}</h6>
+		<h6>생성일 : 
+			<fmt:formatDate value="${dto.createday}" pattern="yyyy-MM-dd HH:mm"/>
+		</h6>
+		<br><br>
+		<button type="button" class="btn btn-sm btn-danger"
+		onclick="userdel(${dto.id})">회원탈퇴</button>
+		
+		<script>
+			function userdel(num){
+				let ans=confirm("정말 탈퇴하시겠습니까?");
+				if(ans){
+					$.ajax({
+						type:"get",
+						dataType:"text",
+						data:{"num":num},
+						url:"./mypagedel",
+						success:function(){
+							location.href='../';
+						}
+					});
+				}
+			}
+		</script>
 </body>
 </html>

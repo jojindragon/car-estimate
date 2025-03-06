@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import data.dto.UserDto;
 import data.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import naver.storage.NcpObjectStorageService;
 
@@ -76,6 +78,20 @@ public class UserController {
 		userService.insertUser(dto);
 		
 		return "redirect:../";
+	}
+	
+	@GetMapping("/mypage")
+	public String  mypage(HttpSession session, Model model) {
+		String userId = (String)session.getAttribute("loginid");
+		if(userId.equals("")||userId==null) {
+			return "/";
+		}
+		UserDto dto = userService.getUserByUserId(userId);
+		
+		model.addAttribute("dto", dto);
+		model.addAttribute("naverurl", "https://kr.object.ncloudstorage.com/"+bucketName);
+		
+		return "user/mypage";
 	}
 	
 }

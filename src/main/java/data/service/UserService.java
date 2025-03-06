@@ -24,4 +24,15 @@ public class UserService {
 	public void insertUser(UserDto dto) {
 		userMapper.insertUser(dto);
 	}
+	
+	// 로그인
+	public boolean loginCheck(String loginid,String loginpass)
+	{
+		return userMapper.loginCheck(loginid, loginpass)==1?true:false;
+	}
+	
+	// 유저 정보 얻기
+	public UserDto getUserByUserId(String userId) {
+		return userMapper.getUserByUserId(userId);
+	}
 }

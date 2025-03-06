@@ -9,4 +9,7 @@ public interface UserMapper {
 	public int checkUserID(String userId);
 	public int checkNickname(String nickname);
 	public void insertUser(UserDto dto);
+	public int loginCheck(String loginid,String loginpass);
+	public void changeProfile(String profile,int id);
+	public UserDto getUserByUserId(String userId);
 }
