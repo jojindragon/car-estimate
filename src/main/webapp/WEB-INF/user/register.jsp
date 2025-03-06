@@ -53,7 +53,7 @@ span.result {
 	color: red;
 	font-family: 'Gaegu';
 	display: none;
-} 
+}
 </style>
 </head>
 <script type="text/javascript">
@@ -140,6 +140,11 @@ $(function() {
 		chk2 = false;
 		$("#nickChk").css("display", "none");
 	});
+	
+	// 사진 반응
+	$(".photo").click(function() {
+		$("#profile").trigger("click");
+	});
 });
 
 function check() {
@@ -158,6 +163,24 @@ function check() {
 		$("#pwdChk").css("display", "block");
 		$("#pwdChk").css("color", "red");
 		return false;
+	}
+}
+
+function preview(tag) {
+	let f = tag.files[0];
+	
+	if(!f.type.match("image.*")) {
+		$("#imgChk").text("이미지 파일만 가능합니다.");
+		return;
+	}
+	
+	if(f) {
+		let reader = new FileReader();
+		reader.onload = function(e) {
+			$("#showimg").attr("src", e.target.result);
+		}
+		
+		reader.readAsDataURL(f);
 	}
 	
 }
@@ -202,8 +225,9 @@ function check() {
 		<label for="profile">프로필</label>&nbsp;
 		<i class="bi bi-camera2 photo"></i><br>
 		<img src="" id="showimg" onerror="this.src='../noimage.png'"/>
+		<span class="result" id="imgChk"></span>
 		<input type="file" id="profile" name="upload"
-		 style="display: none;"/><br><br>
+		 style="display: none;" onchange="preview(this)"/><br><br>
 		
 		<label for="phone">핸드폰 번호</label>
 		<input type="text" id="phone" name="phone"

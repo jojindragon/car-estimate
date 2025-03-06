@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="data.mapper.CarphotoDto">
-<!-- 차량 사진 작업 -->
-
+<mapper namespace="data.mapper.CarphotoMapper">
+	<!-- 차량 사진 추가 -->
+	<insert id="insertCarPhoto" parameterType="CarphotoDto">
+		insert into carphoto(idx, sidephoto, frontphoto)
+		values(#{idx}, #{sidephoto}, #{frontphoto})
+	</insert>
+	
+	<!-- 차량 사진획득 -->
+	<select id="getCarPhoto" parameterType="int" resultType="CarphotoDto">
+		select * from carphoto where idx=#{idx}
+	</select>
 
 </mapper>

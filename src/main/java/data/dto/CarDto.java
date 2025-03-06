@@ -20,4 +20,9 @@ public class CarDto {
 	private int cnt;
 	@JsonFormat(pattern = "yyyy.MM.dd HH:mm", timezone = "Asia/Seoul")
 	private Timestamp registerday;
+	
+	// 차량 사진
+	private String sidephoto;
+	private String frontphoto;
+	
 }

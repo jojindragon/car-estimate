@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="data.mapper.CarDto">
-<!-- 차량 데이터 작업 -->
+<mapper namespace="data.mapper.CarMapper">
+	<!-- 차량 데이터 추가 -->
+	<insert id="insertCar" parameterType="CarDto">
+		insert into car(name, price, type, excolor, incolor, cnt)
+		values(#{name}, #{price}, #{type}, #{excolor}, #{incolor}, #{cnt})
+		
+		<selectKey keyProperty="idx" resultType="int" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	<!-- 차량 목록 출력: type 값에 맞게 -->
+	<select id="getCarList" parameterType="String" resultType="CarDto">
+		select * from car where type=#{type}
+		order by idx
+	</select>
+
+	<!-- 차량 태그 추출 -->
+	<select id="getCarTypes" resultType="String">
+		select distinct type from car
+		order by type
+	</select>
+
+	<!-- 차량 정보 추출 -->
+	<select id="getCarData" parameterType="int" resultType="CarDto">
+		select * from car where idx=#{idx}
+	</select>
 
 </mapper>

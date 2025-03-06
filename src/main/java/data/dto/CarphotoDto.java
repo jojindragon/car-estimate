@@ -10,5 +10,5 @@ public class CarphotoDto {
 	private int idx;
 	private int id;
 	private String sidephoto; // 옆면 사진
-	private String forntphoto; // 앞면 사진
+	private String frontphoto; // 앞면 사진
 }
