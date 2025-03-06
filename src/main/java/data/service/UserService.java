@@ -35,4 +35,16 @@ public class UserService {
 	public UserDto getUserByUserId(String userId) {
 		return userMapper.getUserByUserId(userId);
 	}
+	
+	
+	// 유저 프로필 변경
+	public void changeProfile(String profile,int id)
+	{
+		userMapper.changeProfile(profile, id);
+	}
+	// 유저 정보 수정
+	public void updateUser(UserDto dto)
+	{
+		userMapper.updateUser(dto);
+	}
 }

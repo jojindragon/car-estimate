@@ -32,4 +32,8 @@
 	<update id="changeProfile" parameterType="Map">
 		update users set profile=#{profile} where id=#{id}
 	</update>
+	<!-- 프로필 수정하기 -->
+	<update id="updateUser" parameterType="UserDto">
+		update users set nickname=#{nickname},addr=#{addr},phone=#{phone} where id=#{id}
+	</update>
 </mapper>

@@ -12,4 +12,5 @@ public interface UserMapper {
 	public int loginCheck(String loginid,String loginpass);
 	public void changeProfile(String profile,int id);
 	public UserDto getUserByUserId(String userId);
+	public void updateUser(UserDto dto);
 }

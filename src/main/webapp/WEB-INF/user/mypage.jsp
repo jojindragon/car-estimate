@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원가입</title>
+<title>마이페이지</title>
 	<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Gaegu&family=Jua&family=Nanum+Pen+Script&family=Playwrite+AU+SA:wght@100..400&family=Single+Day&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
@@ -136,14 +136,17 @@
 </div>
 <!-- 프로필 -->
 <jsp:include page="../../layout/title.jsp"/>
-<div style="margin: 30px 100px;">
+<div style="margin: 50px 600px;">
 	 <img src="${naverurl}/user/${dto.profile}" class="profilelargephoto"
 	  onerror="this.src='../noimage.png'" style="float: left;">
 	
 	<input type="file" id="fileupload" style="display: none;">
 	
-	<i class="bi bi-camera-fill changecamera"></i>
-	
+	 <i class="bi bi-camera-fill changecamera"
+           style="position: absolute; left: 40%; transform: translateX(40px); 
+                  font-size: 20px; cursor: pointer; color: black;"></i>
+    </div>
+
 <!-- 프로필 사진관련 -->
 <script>
 		$(".changecamera").click(function(){
@@ -169,7 +172,7 @@
 			});
 		});
 	</script>
-	<div style="display: inline-block;margin: 20px 50px;">
+	<div style="display: inline-block;margin: 15px 30px;">
 		<h6>회원명 : ${dto.nickname}</h6>
 		<h6>아이디 : ${dto.userId}</h6>
 		<h6>핸드폰 : ${dto.phone}</h6>
@@ -197,5 +200,8 @@
 				}
 			}
 		</script>
+		<button type="button" class="btn btn-sm btn-success"
+		data-bs-toggle="modal" data-bs-target="#myUpdateModal">회원정보수정</button>		
+	</div>
 </body>
 </html>
