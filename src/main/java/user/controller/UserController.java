@@ -81,7 +81,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/mypage")
-	public String  mypage(HttpSession session, Model model) {
+	public String mypage(HttpSession session, Model model) {
 		String userId = (String)session.getAttribute("loginid");
 		if(userId==null) {
 			return "redirect:../";
@@ -93,4 +93,15 @@ public class UserController {
 		
 		return "user/mypage";
 	}
+	
+	@GetMapping("/mypagecart")
+	@ResponseBody
+	public String mypagecart(HttpSession session, Model model) {
+		String userId =(String) session.getAttribute("userId");
+	
+//		model.addAttribute("dto", dto);
+		model.addAttribute("naverurl", "https://kr.object.ncloudstorage.com/"+bucketName);
+	
+		return "mypagecart";
+		}
 }

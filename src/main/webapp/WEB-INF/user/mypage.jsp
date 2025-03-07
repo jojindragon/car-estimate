@@ -114,7 +114,7 @@
         		$.ajax({
         			type:"post",
         			dataType:"text",
-        			data:{"userId":$("#userId").val(),"phone":$("#phone").val(),
+        			data:{"nickname":$("#nickname").val(),"phone":$("#phone").val(),
         				"addr":$("#addr").val(),"id":${dto.id}},
         			url:"./update",
         			success:function(){
@@ -181,7 +181,7 @@
 			<fmt:formatDate value="${dto.createday}" pattern="yyyy-MM-dd HH:mm"/>
 		</h6>
 		<br><br>
-		<button type="button" class="btn btn-sm btn-danger"
+		<button type="button" class="btn btn-sm btn-outline-danger"
 		onclick="userdel(${dto.id})">회원탈퇴</button>
 		
 		<script>
@@ -191,7 +191,7 @@
 					$.ajax({
 						type:"get",
 						dataType:"text",
-						data:{"num":num},
+						data:{"id":num},
 						url:"./mypagedel",
 						success:function(){
 							location.href='../';
@@ -200,8 +200,23 @@
 				}
 			}
 		</script>
-		<button type="button" class="btn btn-sm btn-success"
+		<button type="button" class="btn btn-sm btn-outline-info"
 		data-bs-toggle="modal" data-bs-target="#myUpdateModal">회원정보수정</button>		
 	</div>
+	<!-- 장바구니 -->
+	<div style="margin: 50px 200px;">
+	<h4 class="alert alert-danger" style="background-color: lightgray; text-align: center;"><b>장바구니목록</b></h4>
+	<h5 class="alert-danger">총 ${totalCount}개의 상품이 있습니다</h5>
+    <table class="tabboard table table-bordered">
+    	<thead>
+        	<tr>
+	            <th width="200">상품 이미지</th>
+	            <th width="200">상품명</th>
+	            <th width="150">가격</th>
+	            <th width="100">수량</th>
+	            <th>삭제</th>
+	        </tr>
+	     </thead>
+    </div>
 </body>
 </html>
