@@ -3,7 +3,6 @@ package data.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import data.dto.CarDto;
 import data.dto.UserDto;
 import data.mapper.UserMapper;
 
@@ -56,9 +55,4 @@ public class UserService {
 		userMapper.deleteUser(id);
 	}
 	
-	//마이페이지 장바구니
-	public void mypagecart(CarDto dto)
-	{
-		userMapper.mypagecart(dto);
-	}
 }

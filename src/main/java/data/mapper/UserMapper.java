@@ -2,7 +2,6 @@ package data.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import data.dto.CarDto;
 import data.dto.UserDto;
 
 @Mapper
@@ -15,5 +14,4 @@ public interface UserMapper {
 	public UserDto getUserByUserId(String userId);
 	public void updateUser(UserDto dto);
 	public void deleteUser(int id);
-	public void mypagecart(CarDto dto);
 }

@@ -18,4 +18,5 @@ public interface CarMapper {
 	public int checkcart(int id, int idx);
 	public void insertcart(int id, int idx);
 	public void deletecart(int id, int idx);
+	public List<CarDto> mypagecart(int id);
 }

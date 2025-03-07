@@ -204,8 +204,59 @@
 		data-bs-toggle="modal" data-bs-target="#myUpdateModal">회원정보수정</button>		
 	</div>
 	<!-- 장바구니 -->
-	<div style="margin: 50px 200px;">
-	<h4 class="alert alert-danger" style="background-color: lightgray; text-align: center;"><b>장바구니목록</b></h4>    
+	<div style="margin: 50px 200px;width: 500px;">
+		<h4 style="background-color: lightgray; text-align: center; padding: 10px; border-radius: 5px;"><b>장바구니목록</b></h4>
+		<div class="result"></div>
     </div>
+    
+    <script type="text/javascript">
+    cartlist();
+    
+    function cartlist() {
+    	$.ajax({
+    		type: "get",
+    		dataType: "json",
+    		url: "./mypagecart",
+    		success: function(res) {
+    			console.log(res);
+    			if(res.length == 0) {
+    				$(".result").html("장바구니가 비었습니다.");
+    			} else {
+    				let s=`
+    				<table class="tabboard table table-bordered text-center">  
+    				<table class="table">
+    					<thead>
+    						<tr>
+    							<th width="100">차량명</th>
+    							<th width="100">가격</th>
+    							<th width="80">타입</th>
+    							<th width="80">견적보기</th>
+    						</tr>
+    					</thead>
+    					<tbody>`;
+    				
+    				$.each(res, function(i, item) {
+    					s+=`
+    					<tr>
+    						<td>\${item.name}</td>
+    						<td>\${item.price}</td>
+    						<td>\${item.type}</td>
+    						<td>
+    							<button type="button" class="btn btn-sm btn-dark"
+    							 onclick="location.href='../car/detail?idx=\${item.idx}'">보러가기</button>
+    						</td>
+    					</tr>
+    					`;
+    				});
+    				
+    				 s+="</tbody></table>";
+    				$(".result").html(s);
+    			}
+    			
+    		}
+    	});
+    }
+    </script>
+    </tbody>
 </body>
 </html>
