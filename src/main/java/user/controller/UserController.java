@@ -1,6 +1,7 @@
 package user.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import data.dto.CarDto;
 import data.dto.UserDto;
+import data.service.CarService;
 import data.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +27,7 @@ import naver.storage.NcpObjectStorageService;
 @RequestMapping("/user")
 public class UserController {
 	final UserService userService;
+	final CarService carService;
 	final NcpObjectStorageService storageService;
 	
 	private String bucketName = "bucket-mini-139";
@@ -96,13 +100,13 @@ public class UserController {
 	
 	@GetMapping("/mypagecart")
 	@ResponseBody
-	public String mypagecart(HttpSession session, Model model) {
-		String userId =(String) session.getAttribute("userId");
+	public List<CarDto> mypagecart(HttpSession session) {
+		String userId =(String) session.getAttribute("loginid");
 	
 		UserDto dto = userService.getUserByUserId(userId);
-		model.addAttribute("dto", dto);
-		model.addAttribute("naverurl", "https://kr.object.ncloudstorage.com/"+bucketName);
+		
+		List<CarDto> list = carService.mypagecart(dto.getId());
 	
-		return "mypagecart";
-		}
+		return list;
+	}
 }

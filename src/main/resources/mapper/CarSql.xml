@@ -62,8 +62,8 @@
 	</delete>
 	
 	<!-- 마이페이지 장바구니 -->
-	<select id="mypagecart" parameterType="Map" resultType="CarDto">
-		select c.* from carlist cl
-		users u ON cl.id=#{id} car c ON cl.idx=#{idx}
+	<select id="mypagecart" parameterType="int" resultType="CarDto">
+		select c.* from carlist cl join car c on cl.idx=c.idx
+		where cl.id = #{id}
 	</select>
 </mapper>

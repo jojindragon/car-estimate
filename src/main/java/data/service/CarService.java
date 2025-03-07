@@ -64,4 +64,7 @@ public class CarService {
 		carMapper.deletecart(id, idx);
 	}
 	
+	public List<CarDto> mypagecart(int id) {
+		return carMapper.mypagecart(id);
+	}
 }
