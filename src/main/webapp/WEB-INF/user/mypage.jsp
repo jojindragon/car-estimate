@@ -143,9 +143,9 @@
 	<input type="file" id="fileupload" style="display: none;">
 	
 	 <i class="bi bi-camera-fill changecamera"
-           style="position: absolute; left: 40%; transform: translateX(40px); 
+        style="position: absolute; left: 40%; transform: translateX(40px); 
                   font-size: 20px; cursor: pointer; color: black;"></i>
-    </div>
+</div>
 
 <!-- 프로필 사진관련 -->
 <script>

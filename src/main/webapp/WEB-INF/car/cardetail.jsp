@@ -11,6 +11,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+<script src="https://js.tosspayments.com/v2/standard"></script>
 <style>
 body *{
 	font-family: 'Jua';
@@ -55,6 +56,7 @@ body *{
 </style>
 </head>
 <body>
+<!-- 차량 수정 모달 -->
 <div class="modal" id="updateModal" style="top: 250px;">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -133,7 +135,6 @@ body *{
 	        				 accept="image/*">
 	        			</td>
 	        		</tr>
-	        		
 	        	</tbody>
 	        </table>
 	        <button type="submit" class="btn btn-sm btn-info"
@@ -143,12 +144,32 @@ body *{
     </div>
   </div>
 </div>
+
+<!-- 상품 구매 모달(toss) -->
+<div class="modal" id="tossModal" style="top: 250px;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      	<!-- 결제 UI -->
+		<div id="payment-method"></div>
+		<!-- 이용약관 UI -->
+		<div id="agreement"></div>
+		<!-- 결제하기 버튼 -->
+		<button type="button" id="payment-button" class="btn btn-info"
+		 style="margin: 20px;width: 200px;">결제하기</button>
+ 		<!-- 결제 결과 표시 영역 -->
+		<span id="payment-status" style="color: red;"></span>
+    </div>
+  </div>
+</div>
+
+
 <jsp:include page="../../layout/title.jsp"/>
 <div class="info">
 	<div style="float: right;margin: 10px;">
 	<c:if test="${sessionScope.loginstatus!=null && dto.cnt > 0}">
 		<i class="bi bi-basket3" id="cart">장바구니 담기</i>&nbsp;
-		<button class="btn btn-sm btn-outline-success purchase">구매</button>
+		<button class="btn btn-sm btn-outline-success purchase"
+		 data-bs-toggle="modal" data-bs-target="#tossModal">구매</button>
 	</c:if>
 	<c:if test="${sessionScope.admin}">
 		<button type="button" class="btn btn-sm btn-outline-info"
@@ -254,23 +275,81 @@ $("#cart").click(function() {
 	
 });
 
-//구매 버튼
-$(".purchase").click(function() {
-	let ans = confirm("구매하시겠습니까?");
-	
-	if(ans) {
-		//alert(${dto.idx});
-		$.ajax({
-			type: "get",
-			dataType: "text",
-			data: {"idx":${dto.idx}},
-			url: "./getcar",
-			success: function() {
-				location.reload();
-			}
-		});
-	}
-});
+// toss 결제 이벤트
+main();
+
+async function main() {
+    const button = $("#payment-button");
+    const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
+    const tossPayments = TossPayments(clientKey);
+    const customerKey = "jDuqCTyebFXUJIQvooutT";
+    /* let widgets; */
+
+ 	// 위젯 초기화
+    const widgets = tossPayments.widgets({
+        customerKey,
+    });
+
+    // 주문의 결제 금액 설정
+    await widgets.setAmount({
+        currency: "KRW",
+        value: ${dto.price},
+    });
+
+    await Promise.all([
+        // 결제 UI 렌더링
+        widgets.renderPaymentMethods({
+            selector: "#payment-method",
+            variantKey: "DEFAULT",
+        }),
+        // 이용약관 UI 렌더링
+        widgets.renderAgreement({
+            selector: "#agreement",
+            variantKey: "AGREEMENT",
+        }),
+    ]);
+    /* btn2.on("click", async function () {
+        if (!widgets) {
+            
+        }
+    }); */
+    
+    button.on("click", async function () {
+    	const oId = "order-"+${dto.idx}+Math.random().toString(36).substr(2, 9);
+        try {
+            // 결제 요청 실행
+            await widgets.requestPayment({
+                orderId: oId,
+                orderName: "order-"+${dto.idx},
+                successUrl: window.location.href + "&status=success",
+                failUrl: window.location.href + "&status=fail"
+            });
+        } catch (error) {
+    		$("#payment-status").html("결제가 실패했습니다. 다시 시도해주세요.");
+        }
+    });
+    
+}
+//URL에서 상태값 확인
+const urlParams = new URLSearchParams(window.location.search);
+const status = urlParams.get("status");
+
+// 결제 결과에 따라 메시지 표시
+if (status === "success") {
+    //$("#payment-status").html("<p>결제가 성공적으로 완료되었습니다!</p>");
+	$.ajax({
+		type: "get",
+		dataType: "text",
+		data: {"idx":${dto.idx}},
+		url: "./getcar",
+		success: function() {
+			//location.reload();
+			location.href="./detail?idx="+${dto.idx};
+		}
+	});
+} else if (status === "fail") {
+    alert("실패");
+}
 </script>
 </body>
 </html>
