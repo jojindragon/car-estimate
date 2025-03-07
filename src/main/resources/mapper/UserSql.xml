@@ -21,7 +21,12 @@
 	</insert>
 	
 	<!-- 유저 정보 얻기 -->
-	<select id="getUserById">
+	<select id="getAllUsers" resultType="UserDto">
+		select * from users
+	</select>
+	
+	<select id="getUserById" parameterType="int" resultType="UserDto">
+		select * from users where id=#{id}
 	</select>
 	
 	<select id="getUserByUserId" parameterType="String">
@@ -40,4 +45,6 @@
 	<delete id="deleteUser" parameterType="int">
 		delete from users where id=#{id}
 	</delete>
+	
+	
 </mapper>
