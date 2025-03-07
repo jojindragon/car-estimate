@@ -99,7 +99,8 @@ public class UserController {
 	public String mypagecart(HttpSession session, Model model) {
 		String userId =(String) session.getAttribute("userId");
 	
-//		model.addAttribute("dto", dto);
+		UserDto dto = userService.getUserByUserId(userId);
+		model.addAttribute("dto", dto);
 		model.addAttribute("naverurl", "https://kr.object.ncloudstorage.com/"+bucketName);
 	
 		return "mypagecart";
