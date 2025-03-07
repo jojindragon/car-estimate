@@ -91,7 +91,9 @@ public class UserController {
 			return "redirect:../";
 		}
 		UserDto dto = userService.getUserByUserId(userId);
+		List<CarDto> list = carService.getReceipt(dto.getId());
 		
+		model.addAttribute("receipt", list);
 		model.addAttribute("dto", dto);
 		model.addAttribute("naverurl", "https://kr.object.ncloudstorage.com/"+bucketName);
 		

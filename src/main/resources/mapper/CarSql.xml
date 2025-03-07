@@ -66,4 +66,17 @@
 		select c.* from carlist cl join car c on cl.idx=c.idx
 		where cl.id = #{id}
 	</select>
+	
+	<!-- 구매 내역 넣기 -->
+	<insert id="purchaseCar" parameterType="Map">
+		insert into purchase(id, idx) values(#{id}, #{idx})
+	</insert>
+	
+	<!-- 구매 내역 가져오기 -->
+	<select id="getReceipt" parameterType="int" resultType="CarDto">
+		select p.purchaseday, c.* from purchase p
+		join car c on p.idx=c.idx
+		where id=#{id}
+	</select>
+	
 </mapper>

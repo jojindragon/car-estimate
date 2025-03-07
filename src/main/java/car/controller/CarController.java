@@ -113,7 +113,13 @@ public class CarController {
 	
 	@GetMapping("/getcar")
 	@ResponseBody
-	public void getCar(@RequestParam int idx) {
+	public void getCar(@RequestParam int idx, HttpSession session) {
+		String loginid = (String)session.getAttribute("loginid");
+		int id = userService.getUserByUserId(loginid).getId();
+		// 구매 내역 남기기
+		carService.purchaseCar(id, idx);
+		
+		// 차량 물량 감소
 		carService.getCar(idx);
 	}
 	

@@ -262,7 +262,7 @@ $("#cart").click(function() {
 			if(ans) {
 				$.ajax({
 					type: "get",
-					dataType: "json",
+					dataType: "text",
 					data: {"idx":${dto.idx}},
 					url: "./outcart",
 					success: function() {
@@ -283,7 +283,6 @@ async function main() {
     const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
     const tossPayments = TossPayments(clientKey);
     const customerKey = "jDuqCTyebFXUJIQvooutT";
-    /* let widgets; */
 
  	// 위젯 초기화
     const widgets = tossPayments.widgets({
@@ -308,11 +307,6 @@ async function main() {
             variantKey: "AGREEMENT",
         }),
     ]);
-    /* btn2.on("click", async function () {
-        if (!widgets) {
-            
-        }
-    }); */
     
     button.on("click", async function () {
     	const oId = "order-"+${dto.idx}+Math.random().toString(36).substr(2, 9);
@@ -343,8 +337,8 @@ if (status === "success") {
 		data: {"idx":${dto.idx}},
 		url: "./getcar",
 		success: function() {
-			//location.reload();
-			location.href="./detail?idx="+${dto.idx};
+			//location.href="./detail?idx="+${dto.idx};
+			location.href="../user/mypage";
 		}
 	});
 } else if (status === "fail") {

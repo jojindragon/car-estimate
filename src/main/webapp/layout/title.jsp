@@ -43,7 +43,6 @@ body *{
 	cursor: pointer;
 }
 
-
 .logo img{
 	width: 80px;
 	height: 80px;
@@ -109,20 +108,7 @@ body *{
     </div>
   </div>
 </div>
-		<!-- 로그인 상태노출 -->
-		<span style="margin-left:800px;font-size: 15px;">
-			<c:if test="${sessionScope.loginstatus!=null}">
-				<c:set var="naverurl" value="https://kr.object.ncloudstorage.com/bitcamp-bucket-139"/>
-				
-				<script type="text/javascript">
-					$(".profilephoto").click(function(){
-						location.href=`${root}/user/mypage`;
-					});
-				</script>
-				
-				<b>${sessionScope.loginid}</b> 님 환영합니다!
-			</c:if>
-		</span>		
+
 <div class="title">
 	<nav class="menu">
 		<ul>
@@ -138,6 +124,10 @@ body *{
 		<a href="${root}/">
 		<img src="${root}/logo.png"/>
 		</a>
+		<!-- 로그인 상태노출 -->
+		<c:if test="${sessionScope.loginstatus!=null}">
+			<b>${sessionScope.loginid}</b> 님 환영합니다!
+		</c:if>
 	</div>
 	
 	<div class="auth">

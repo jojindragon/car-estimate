@@ -25,4 +25,6 @@ public class CarDto {
 	private String sidephoto;
 	private String frontphoto;
 	
+	@JsonFormat(pattern = "yyyy.MM.dd HH:mm", timezone = "Asia/Seoul")
+	private Timestamp purchaseday;
 }

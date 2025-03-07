@@ -32,12 +32,11 @@ public class UserDelUpdateController {
 	@PostMapping("/changeprofile")
 	@ResponseBody
 	public void changePhoto(@RequestParam("upload") MultipartFile upload,
-			@RequestParam("id") int id,
-			HttpSession session ) {
+			@RequestParam("id") int id, HttpSession session) {
 		String userId = (String) session.getAttribute("loginid");
 		String oldFilename=userService.getUserByUserId(userId).getProfile();
 				
-		storageService.deleteFile("bucketName", "user", oldFilename);
+		storageService.deleteFile(bucketName, "user", oldFilename);
 		
 		String uploadFilename=storageService.uploadFile(bucketName, "user", upload);
 		userService.changeProfile(uploadFilename, id);

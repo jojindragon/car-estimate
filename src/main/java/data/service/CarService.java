@@ -64,7 +64,19 @@ public class CarService {
 		carMapper.deletecart(id, idx);
 	}
 	
+	// 장바구니 불러오기
 	public List<CarDto> mypagecart(int id) {
 		return carMapper.mypagecart(id);
 	}
+	
+	// 구매 정보 넣기
+	public void purchaseCar(int id, int idx) {
+		carMapper.purchaseCar(id, idx);
+	}
+	
+	// 영수증 목록 가져오기
+	public List<CarDto> getReceipt(int id) {
+		return carMapper.getReceipt(id);
+	}
+	
 }
