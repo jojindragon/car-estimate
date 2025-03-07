@@ -35,7 +35,14 @@ public class CarController {
 	
 	// 차량 등록 폼으로
 	@GetMapping("/addform")
-	public String addForm() {
+	public String addForm(HttpSession session) {
+		Boolean admin = (Boolean)session.getAttribute("admin");
+		
+		// 비 로그인 또는 관리자가 아닌 경우
+		if(admin==null||!admin) {
+			return "redirect:../";
+		}
+		
 		return "car/addcar";
 	}
 	

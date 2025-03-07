@@ -1,5 +1,7 @@
 package data.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +34,14 @@ public class UserService {
 	}
 	
 	// 유저 정보 얻기
+	public List<UserDto> getAllUsers() {
+		return userMapper.getAllUsers();
+	}
+	
+	public UserDto getUserById(int id) {
+		return userMapper.getUserById(id);
+	}
+	
 	public UserDto getUserByUserId(String userId) {
 		return userMapper.getUserByUserId(userId);
 	}

@@ -66,6 +66,7 @@ list {
 	height: auto;
 	border-radius:10px;
 	transition: opacity 0.5 ease, transform 0.5s ease;
+	cursor: pointer;
 }
 
 .car-name {
@@ -95,17 +96,28 @@ list {
 	float: right;
 }
 div.estimate {
+	position: fixed;
+	bottom: 0;
 	justify-content: center;
-	gap: 30px;
+	gap: 50px;
+	width: 100%;
+	height: 200px;
+	background-color: white;
+	box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+	z-index: 1000;
 }
 .box {
-	border: 1px dashed black;
-	border-radius: 5px;
-	
+	display: flex;
+    justify-content: center;
+    align-items: center;
+    
 }
 .box img {
-	width: 100px;
-	height: 100px;
+	border: 1px dashed black;
+	border-radius: 5px;
+	width: 150px;
+	height: auto;
+	cursor: pointer;
 }
 </style>
 </head>
@@ -124,14 +136,21 @@ div.estimate {
 	<hr style="color: #d4d4d4;">
 	<!-- 견적 비교  -->
 	<div class="estimate input-group">
-		<div class="box" id="box1">
-			<img src="." onerror="this.src='../noimage.png'"/>
+		<div class="box">
+			<img src="" onerror="this.src='../noimage.png'"
+			 idx="0"/>
 		</div>
-		<div class="box" id="box2">
-			<img src="." onerror="this.src='../noimage.png'"/>
+		<div class="box">
+			<img src="" onerror="this.src='../noimage.png'"
+			 idx="0"/>
 		</div>
-		<div class="box" id="box3">
-			<img src="." onerror="this.src='../noimage.png'"/>
+		<div class="box">
+			<img src="" onerror="this.src='../noimage.png'"
+			 idx="0"/>
+		</div>
+		<div style="display: flex;align-items: center;">
+			<button type="button" class="btn btn-dark"
+			 id="estimateList">견적 비교하기</button>
 		</div>
 	</div>
 	<!-- 차량 리스트 -->
@@ -148,7 +167,7 @@ $(".tag-item").click(function() {
 	carlist($(this).attr("tag"));
 });
 
-// 차량 비교 이벤트
+/* 차량 비교  이벤트 */
 let chk = false;
 $(".estimate").hide();
 $("#check").click(function() {
@@ -162,6 +181,91 @@ $("#check").click(function() {
 		$(this).addClass("bi-check-circle");
 		chk=false;
 		$(".estimate").hide().removeClass("show");
+	}
+	
+	cancel();
+});
+
+// 차량 선택
+$(document).on("click", ".car-img", function() {
+	//alert($(this).attr("src"));
+	var imgSrc = $(this).attr("src");
+	var idx = $(this).attr("idx");
+	
+	var selected = false;
+	
+	// 선택된 이미지인지 확인
+	$(".box img").each(function() {
+		if($(this).attr("idx") == idx) {
+			selected = true;	
+			$(this).attr("src", "");
+			$(this).attr("idx", 0);
+			$(this).css("width", "150px");
+			$(this).css("border", "1px dashed black");
+			return false;
+		}
+	});
+	
+	if(!selected) {
+		$(".box img").each(function() {
+			if($(this).attr("idx") == 0) {
+				selected = true;	
+				$(this).attr("src", imgSrc);
+				$(this).attr("idx", idx);
+				$(this).css("width", "200px");
+				$(this).css("border", "1px solid gray");
+				return false;
+			}
+		});
+	}
+});
+
+// 선택 취소
+$(".box").click(function() {
+	$(this).find("img").attr("src", "");
+	$(this).find("img").attr("idx", 0);
+	$(this).find("img").css("width", "150px");
+	$(this).find("img").css("border", "1px dashed black");
+});
+function cancel() {
+	$(".box").each(function() {
+		$(this).find("img").attr("src", "");
+		$(this).find("img").attr("idx", 0);
+		$(this).find("img").css("width", "150px");
+		$(this).find("img").css("border", "1px dashed black");
+	});
+}
+
+
+// 견적 비교 보내기 이벤트
+$("#estimateList").click(function() {
+	// 보낼 idx 값들 저장
+	var selectedIdx = [];
+	$(".box img").each(function() {
+		var idx = $(this).attr("idx");
+		if(idx != 0) {
+			selectedIdx.push(idx);	
+		} 
+	});
+	
+	if(selectedIdx.length > 0) {
+		//alert(selectedIdx);
+		// 폼 데이터 생성
+		var form=$("<form></form>");
+		form.attr("method", "post");
+		form.attr("action", "./car/estimateList");
+		
+		selectedIdx.forEach(function(idx) {
+			var input = $("<input/>");
+			input.attr("type", "hidden");
+			input.attr("name", "idx[]");
+			input.attr("value", idx);
+			form.append(input);
+		});
+		$("body").append(form);
+		form.submit();
+	} else {
+		alert("선택된 차량이 없습니다.");
 	}
 	
 });
@@ -201,7 +305,8 @@ function carlist(type) {
 				<div class="car-item">
 					<img src="\${side}" class="car-img"
 					 onerror="this.src='../noimage.png'"
-					 side="\${side}" front="\${front}"/>
+					 side="\${side}" front="\${front}"
+					 idx="\${item.idx}"/>
 					<br><br><br>
 					<div class="car-name">\${item.name}</div>
 					<div class="car-price">\${price}만원~</div>

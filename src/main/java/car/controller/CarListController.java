@@ -1,10 +1,12 @@
 package car.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -45,5 +47,22 @@ public class CarListController {
 		}
 		
 		return list;
+	}
+	
+	@PostMapping("/car/estimateList")
+	public String estimate(Model model,
+			@RequestParam("idx") List<Integer> idxList) {
+		//System.out.println(idxList);
+		List<CarDto> list = new ArrayList<>();
+		
+		for(Integer idx:idxList) {
+			CarDto dto = carService.getCarData(idx);
+			dto.setSidephoto(carphotoService.getCarPhoto(idx).getSidephoto()); 
+			dto.setFrontphoto(carphotoService.getCarPhoto(idx).getFrontphoto()); 
+			list.add(dto);
+		}
+		model.addAttribute("carurl", "https://kr.object.ncloudstorage.com/bucket-mini-139");
+		model.addAttribute("list", list);
+		return "car/carestimate";
 	}
 }

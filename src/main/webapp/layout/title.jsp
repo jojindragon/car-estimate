@@ -43,6 +43,7 @@ body *{
 	cursor: pointer;
 }
 
+
 .logo img{
 	width: 80px;
 	height: 80px;
@@ -125,9 +126,11 @@ body *{
 <div class="title">
 	<nav class="menu">
 		<ul>
-			<li><a href="${root}/">차량</a></li>
-			<li><a>견적비교</a></li>
-			<li><a>게시판</a></li>
+			<li><a href="${root}/">견적비교</a></li>
+			<c:if test="${sessionScope.admin}">
+				<li><a href="${root}/car/addform">차량 정보 등록</a></li>
+				<li><a href="${root}/">회원 관리</a></li>
+			</c:if>
 		</ul>
 	</nav>
 	
@@ -149,7 +152,6 @@ body *{
 		</c:if>
 	</div>
 </div>
-<hr>
 <script type="text/javascript">
 	$("#register").click(function(){
 		location.href="${root}/user/regifrm";
