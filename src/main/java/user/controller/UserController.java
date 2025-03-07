@@ -83,8 +83,8 @@ public class UserController {
 	@GetMapping("/mypage")
 	public String  mypage(HttpSession session, Model model) {
 		String userId = (String)session.getAttribute("loginid");
-		if(userId.equals("")||userId==null) {
-			return "/";
+		if(userId==null) {
+			return "redirect:../";
 		}
 		UserDto dto = userService.getUserByUserId(userId);
 		

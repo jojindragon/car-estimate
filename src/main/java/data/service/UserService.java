@@ -42,9 +42,16 @@ public class UserService {
 	{
 		userMapper.changeProfile(profile, id);
 	}
+	
 	// 유저 정보 수정
 	public void updateUser(UserDto dto)
 	{
 		userMapper.updateUser(dto);
+	}
+	
+	// 유저 정보 삭제
+	public void deleteUser(int id)
+	{
+		userMapper.deleteUser(id);
 	}
 }

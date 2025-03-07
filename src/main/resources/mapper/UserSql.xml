@@ -36,4 +36,8 @@
 	<update id="updateUser" parameterType="UserDto">
 		update users set nickname=#{nickname},addr=#{addr},phone=#{phone} where id=#{id}
 	</update>
+	<!-- 프로필 삭제하기 -->
+	<delete id="deleteUser" parameterType="int">
+		delete from users where id=#{id}
+	</delete>
 </mapper>

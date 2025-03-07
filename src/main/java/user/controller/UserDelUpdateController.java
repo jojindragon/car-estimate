@@ -50,9 +50,24 @@ public class UserDelUpdateController {
 	@ResponseBody
 	public void update(@ModelAttribute UserDto dto)
 	{
-		System.out.println(dto.getId());
-		
 		userService.updateUser(dto);
 	}
 	
+	@GetMapping("/delete")
+	public String deleteUser(@RequestParam int id)
+	{
+		userService.deleteUser(id);
+		return "redirect:./";
+	}
+	
+	@GetMapping("/mypagedel")
+	@ResponseBody
+	public void mypageDelete(@RequestParam int id,HttpSession session)
+	{
+		userService.deleteUser(id);
+		
+		session.removeAttribute("loginstatus");
+		session.removeAttribute("loginid");
+		session.removeAttribute("loginphoto");	
+	}
 }

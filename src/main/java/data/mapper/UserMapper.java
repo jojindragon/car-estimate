@@ -13,4 +13,5 @@ public interface UserMapper {
 	public void changeProfile(String profile,int id);
 	public UserDto getUserByUserId(String userId);
 	public void updateUser(UserDto dto);
+	public void deleteUser(int id);
 }
