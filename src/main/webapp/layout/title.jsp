@@ -129,7 +129,7 @@ body *{
 			<li><a href="${root}/">견적비교</a></li>
 			<c:if test="${sessionScope.admin}">
 				<li><a href="${root}/car/addform">차량 정보 등록</a></li>
-				<li><a href="${root}/">회원 관리</a></li>
+				<li><a href="${root}/user/manage">회원 관리</a></li>
 			</c:if>
 		</ul>
 	</nav>

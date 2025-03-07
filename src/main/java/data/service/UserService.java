@@ -71,4 +71,9 @@ public class UserService {
 	{
 		userMapper.mypagecart(dto);
 	}
+	
+	// 관리자 임명
+	public void setAdmin(int id) {
+		userMapper.setAdmin(id);
+	}
 }

@@ -65,4 +65,5 @@ public class CarListController {
 		model.addAttribute("list", list);
 		return "car/carestimate";
 	}
+	
 }

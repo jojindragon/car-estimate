@@ -1,5 +1,7 @@
 package user.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import data.dto.UserDto;
 import data.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import naver.storage.NcpObjectStorageService;
@@ -30,12 +31,9 @@ public class UserDelUpdateController {
 	
 	@PostMapping("/changeprofile")
 	@ResponseBody
-	public void changePhoto(
-			@RequestParam("upload") MultipartFile upload,
+	public void changePhoto(@RequestParam("upload") MultipartFile upload,
 			@RequestParam("id") int id,
-			HttpSession session
-			)
-	{
+			HttpSession session ) {
 		String userId = (String) session.getAttribute("loginid");
 		String oldFilename=userService.getUserByUserId(userId).getProfile();
 				
@@ -48,26 +46,69 @@ public class UserDelUpdateController {
 	
 	@PostMapping("/update")
 	@ResponseBody
-	public void update(@ModelAttribute UserDto dto)
-	{
+	public void update(@ModelAttribute UserDto dto) {
 		userService.updateUser(dto);
 	}
 	
 	@GetMapping("/delete")
-	public String deleteUser(@RequestParam int id)
+	public String deleteUser(@RequestParam int id, HttpSession session)
 	{
+		String loginid = (String)session.getAttribute("loginid");
+		if(loginid == null) {
+			loginid = "";
+		}
+		
+		UserDto dto = userService.getUserById(id);
+		
+		if(dto.getUserId().equals(loginid)) {
+			session.removeAttribute("loginstatus");
+			session.removeAttribute("loginid");
+			session.removeAttribute("admin");
+		}
+		
+		storageService.deleteFile(bucketName, "user", dto.getProfile());
 		userService.deleteUser(id);
-		return "redirect:./";
+		return "redirect:../";
 	}
 	
 	@GetMapping("/mypagedel")
 	@ResponseBody
-	public void mypageDelete(@RequestParam int id,HttpSession session)
+	public void mypageDelete(@RequestParam int id, HttpSession session)
 	{
+		UserDto dto = userService.getUserById(id);
+		storageService.deleteFile(bucketName, "user", dto.getProfile());
 		userService.deleteUser(id);
 		
 		session.removeAttribute("loginstatus");
 		session.removeAttribute("loginid");
-		session.removeAttribute("loginphoto");	
+		session.removeAttribute("admin");	
 	}
+	
+
+	@GetMapping("/manage")
+	public String usermanage(HttpSession session, Model model) {
+		Boolean admin = (Boolean)session.getAttribute("admin");
+		
+		// 비 로그인 또는 관리자가 아닌 경우
+		if(admin==null||!admin) {
+			return "redirect:../";
+		}
+		
+		model.addAttribute("naverurl", "https://kr.object.ncloudstorage.com/"+bucketName);
+		return "user/usermanage";
+	}
+	
+	@GetMapping("/userlist")
+	@ResponseBody
+	public List<UserDto> userList() {
+		List<UserDto> list = userService.getAllUsers();
+		return list;
+	}
+	
+	@PostMapping("setadmin")
+	@ResponseBody
+	public void setAdmin(@RequestParam int id) {
+		userService.setAdmin(id);
+	}
+	
 }

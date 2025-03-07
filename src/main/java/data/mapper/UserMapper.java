@@ -20,4 +20,5 @@ public interface UserMapper {
 	public void updateUser(UserDto dto);
 	public void deleteUser(int id);
 	public void mypagecart(CarDto dto);
+	public void setAdmin(int id);
 }
